@@ -1,8 +1,12 @@
 *~
 
-*.png
-
 _site/
+
+.ruby-gemset
+.ruby-version
+.sass-cache/
+Gemfile
+Gemfile.lock
 
 *.gem
 *.rbc
