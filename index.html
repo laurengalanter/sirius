@@ -155,7 +155,7 @@ title: Sirius by Comcast
         <p class="body-copy light">(1) a simple library interface <br />
         (2) easy degradation&mdash;if the publisher becomes unavailable the application still has access to a (temporarily) stale mirror of the dataset.</p>
 
-      <img class="featured-image" src="images/arch-diagram.png" alt="System diagram showing overall flow of events"/>
+      <img class="featured-image" src="{{ site.baseurl }}/images/arch-diagram.png" alt="System diagram showing overall flow of events"/>
 
       <p class="body-copy light">The overall flow is shown in the diagram above. When an application receives an update, it hands the update off to Sirius as either a &quot;PUT&quot; or &quot;DELETE&quot;&mdash;Sirius provides a straightforward key-value interface. Sirius then uses the Paxos protocol to assign the update a globally consistent sequence number and ensure it gets replicated to all cluster members; updates are also recorded in local transaction logs. Finally, Sirius invokes a callback, one update at a time, to let the application know it can update its in-memory mirror (affectionately called the application's &quot;brain&quot; by our developers). This same callback is used when replaying a log to rebuild the application's brain at startup time.</p>
 
@@ -167,7 +167,7 @@ title: Sirius by Comcast
 
       <p class="body-copy light">Sirius also provides a mechanism for very flexible replication topologies. Our implementation includes a catch-up protocol to allow participating cluster members to retrieve missing updates from other nodes (whether due to lost messages or because a server was offline temporarily). We are able to re-use this same protocol to provide for passive cluster members that do not participate in Paxos but rather just play the role of "fast followers." Sirius cluster members are currently statically configured; if a server finds its address in the list of cluster members, it participates in the Paxos protocol, but if it doesn't, it becomes a follower.</p>
 
-      <img class="featured-image" src="images/replication.png" alt="sample cluster architecture illustrating some of the possible replication topologies"/>
+      <img class="featured-image" src="{{ site.baseurl }}/images/replication.png" alt="sample cluster architecture illustrating some of the possible replication topologies"/>
 
       <p class="body-copy light">For example, consider the example shown above showing four different clusters (possibly in different datacenters) labeled A-D. Clusters, A, B, and C could all have the same configuration containing just the servers in cluster A. This causes cluster A to run Paxos, but the members of clusters B and C to periodically catch up from randomly selected members of A. Meanwhile, cluster D could be configured with a membership list containing all the members of clusters B and C; this will cause the D nodes to catch up from randomly selected members of both clusters (even though neither of them is actually the primary Paxos cluster).</p>
 
